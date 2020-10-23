@@ -1,0 +1,19 @@
+{
+  "name": "minteger",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server/index.js",
+    "start:dev": "nodemon server/index.js -w server -w database-mysql"
+  },
+  "author": "Hack Reactor Curriculum Team",
+  "devDependencies": {
+    "nodemon": "^1.19.4"
+  },
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "express": "^4.15.4",
+    "mysql": "^2.14.1"
+  }
+}
