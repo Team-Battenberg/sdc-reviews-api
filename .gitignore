@@ -1,0 +1,14 @@
+._*
+.cache/
+.DS_Store
+.DS_Store?
+.Spotlight-V100
+.Trashes
+*.log
+coverage/
+ehthumbs.db
+node_modules
+Thumbs.db
+
+package-lock.json
+database-mysql/config.js
