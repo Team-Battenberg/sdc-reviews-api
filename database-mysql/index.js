@@ -5,19 +5,65 @@ const connection = mysql.createConnection(mysqlConfig);
 
 
 //change to Get Review
-const getAllReviews = function(callback) {
-  // TODO: - your code here!
+const getReviews = function(params, callback) {
   console.log('in reviews')
-  let queryString = "select * from reviews"
-  connection.query(queryString, (err, results) => {
+  console.log(params);
+
+  //NOTE: i have to define what "relevant" is in this API!
+  //that probably just means sort by helpfulness
+
+  let basicQuery = "select * from reviews where product_id = ? order by helpfulness desc limit 100"
+
+    //photos subqueriy?
+
+  let queryString = `
+    select 
+      *, 
+      (select group_concat(c.url) from sdc.reviews_photos c where c.review_id = a.id) 
+        as photos 
+      from sdc.reviews a 
+    where a.product_id = ? order by a.helpfulness desc limit 100
+  `
+  //note: i need to split based on ','
+
+  connection.query(queryString, [params.product_id], (err, results) => {
     if(err){
       console.log('ERROR', err)
     }
-    callback(err, results)
+    console.log('results: !!!!!!!', typeof results)
+
+    // console.log(results)
+    for(row in results) {
+      // console.log(results[row], results[row].photos)
+      if(results[row]["photos"] !== null) {
+        console.log("split:", results[row]["photos"])
+
+        let photos = results[row]["photos"].split(",").map((url, i)=> {
+          return {
+            "id": i + 1,
+            "url": url
+          }
+        })
+        console.log("------ Mapped photos:", photos)
+        results[row]["photos"] = photos;
+      }
+    }
+
+    //TODO: pagination
+      //-> can grab count of reviews and just delete line in the results in above loop
+    let returnObj = {
+      "product": params.product_id.toString(),
+      "page": 0,
+      "count": results.length,
+      "results": results
+    }
+
+    callback(err, returnObj);
   })
+
 };
 
-//get Review Meta
+//get Review Meta 
 const getReviewMeta = function(callback) {
   //fix
   let queryString = "select * from reviews" 
@@ -49,7 +95,7 @@ const reportReview = function(params, callback) {
 }
 
 module.exports = {
-  getAllReviews : getAllReviews,
+  getReviews : getReviews,
   getReviewMeta : getReviewMeta,
   postReview : postReview,
   markHelpful: markHelpful,

@@ -15,16 +15,18 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.get("/reviews", (req, res) => {
   console.log("get review")
 
+  console.log(req.body)
+
   // TODO: get based on product/id
 
-  db.getAllReviews((err, results) => {
+  db.getReviews(req.body, (err, results) => {
     if (err){
+      //TODO - will this handle an empty body?
       res.sendStatus(500);
     } else {
       res.status(200).send(results)
     }
   })
-  
 });
 
 //endpoint 2 - get review meta
