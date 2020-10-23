@@ -3,24 +3,33 @@ const mysqlConfig = require('./config.js');
 
 const connection = mysql.createConnection(mysqlConfig);
 
-const getAllTransactions = function(callback) {
+
+//change to Get Review
+const getAllReviews = function(callback) {
   // TODO: - your code here!
-  let queryString = "select * from transactions"
+  console.log('in reviews')
+  let queryString = "select * from reviews"
+  connection.query(queryString, (err, results) => {
+    if(err){
+      console.log('ERROR', err)
+    }
+    callback(err, results)
+  })
+};
+
+//get Review Meta
+const getReviewMeta = function(callback) {
+  //fix
+  let queryString = "select * from reviews" 
   connection.query(queryString, (err, results) => {
     callback(err, results)
   })
 };
 
-const getAllCategories = function(callback) {
-  let queryString = "select * from categories"
-  connection.query(queryString, (err, results) => {
-    callback(err, results)
-  })
-};
+const postReview = function(params, callback) {
 
-const postCategory = function(params, callback) {
   let queryString = 
-    "insert into categories(category, budget) values (?, ?)";
+    "insert into reviews(column1, column2) values (?, ?)";
 
   //note params needs to be an array
   console.log("sql params: ", params);
@@ -29,17 +38,20 @@ const postCategory = function(params, callback) {
   })
 };
 
-const setTransactionCategory = function(params, callback) {
-  //write update sql here for transaction table and simply take in a category fk
+const markHelpful = function(params, callback) {
+  //write update sql here 
+  //literally just set helpful = helpful + 1
+}
 
-  //i need to setup my transaction table fk to depend on category 
-  //so the user can't set a nonexistent category id (and mysql just returns error if they try)
-
+const reportReview = function(params, callback) {
+  //write update sql here 
+  //literally just set report = report + 1
 }
 
 module.exports = {
-  getAllTransactions : getAllTransactions,
-  getAllCategories : getAllCategories,
-  postCategory : postCategory,
-  setTransactionCategory: setTransactionCategory
+  getAllReviews : getAllReviews,
+  getReviewMeta : getReviewMeta,
+  postReview : postReview,
+  markHelpful: markHelpful,
+  reportReview: reportReview
 };

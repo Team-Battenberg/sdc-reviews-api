@@ -2,9 +2,6 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const db = require("../database-mysql");
 
-//edit
-const { getAllTransactions } = require("../database-mysql");
-
 const app = express();
 const PORT = 3000;
 
@@ -14,26 +11,13 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 
+//get review
 app.get("/reviews", (req, res) => {
-  console.log("get transactions")
+  console.log("get review")
 
-  res.status(200).send({});
+  // TODO: get based on product/id
 
-  // db.getAllTransactions((err, results) => {
-  //   if (err){
-  //     res.sendStatus(500);
-  //   } else {
-  //     res.status(200).send(results)
-  //   }
-  // })
-  
-});
-
-//step 2: 
-app.get("/api/categories", (req, res) => {
-  console.log("get Categories")
-
-  db.getAllCategories((err, results)=>{
+  db.getAllReviews((err, results) => {
     if (err){
       res.sendStatus(500);
     } else {
@@ -43,34 +27,74 @@ app.get("/api/categories", (req, res) => {
   
 });
 
-app.post("/api/category", (req, res) => {
-  console.log("post category")
-  console.log(req.body.category)
-  let params = [req.body.category, req.body.budget]
+//endpoint 2 - get review meta
+app.get("/reviews/meta", (req, res) => {
+  console.log("get review meta")
 
-  db.postCategory(params, (err, results) =>{
-    if (err){
-      res.sendStatus(500);
-    } else {
-      res.sendStatus(201);
-    }
-  })
+  // uhhhhhhhhhh idk how to get this.
+  res.sendStatus(500);
 
-  //step 3:
-  app.put("/api/transaction", (req, res) => {
+  // db.getReviewMeta((err, results) => {
+  //   if (err){
+  //     res.sendStatus(500);
+  //   } else {
+  //     res.status(200).send(results)
+  //   }
+  // })
+  
+});
+
+//post review
+app.post("/reviews", (req, res) => {
+  console.log("post review")
+  // let params = [req.body.FILL_ME_IN, req.body.FILL_ME_IN]
+
+  res.sendStatus(500);
+
+  // db.FILL_ME_IN(params, (err, results) => {
+  //   if (err){
+  //     res.sendStatus(500);
+  //   } else {
+  //     res.sendStatus(201);
+  //   }
+  // })
+})
+
+  //increase helpfulness count
+  app.put("/reviews/:review_id/helpful", (req, res) => {
+
+    //simple update helpful = helpful +1 sql command
+
+    console.log(review_id);
+    res.sendStatus(500);
 
     //NOTE: currently need to impliment db AND axios call to use this correctly.
-    let params = req.body.categoryId;
-    db.setTransactionCategory(params, (err, results) =>{
-      if (err){
-        res.sendStatus(500);
-      } else {
-        res.sendStatus(201);
-      }
-    })
+    // let params = req.body.categoryId;
+    // db.FILL_ME_IN(params, (err, results) => {
+    //   if (err){
+    //     res.sendStatus(500);
+    //   } else {
+    //     res.sendStatus(201);
+    //   }
+    // })
   })
 
-});
+  app.put("/reviews/:review_id/report", (req, res) => {
+
+    console.log(review_id);
+    res.sendStatus(500);
+    
+    //NOTE: currently need to impliment db AND axios call to use this correctly.
+    // let params = req.body.categoryId;
+    // db.FILL_ME_IN(params, (err, results) => {
+    //   if (err){
+    //     res.sendStatus(500);
+    //   } else {
+    //     res.sendStatus(201);
+    //   }
+    // })
+  })
+
 
 app.listen(PORT, () => {
   console.log(`listening on port ${PORT}`);
