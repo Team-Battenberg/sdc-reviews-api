@@ -62,41 +62,46 @@ app.post("/reviews", (req, res) => {
   // })
 })
 
-  //increase helpfulness count
-  app.put("/reviews/:review_id/helpful", (req, res) => {
+//increase helpfulness count
+app.put("/reviews/:review_id/helpful", (req, res) => {
 
-    //simple update helpful = helpful +1 sql command
+  //simple update helpful = helpful +1 sql command
 
-    console.log(review_id);
-    res.sendStatus(500);
+  console.log(review_id);
+  res.sendStatus(500);
 
-    //NOTE: currently need to impliment db AND axios call to use this correctly.
-    // let params = req.body.categoryId;
-    // db.FILL_ME_IN(params, (err, results) => {
-    //   if (err){
-    //     res.sendStatus(500);
-    //   } else {
-    //     res.sendStatus(201);
-    //   }
-    // })
-  })
+  //NOTE: currently need to impliment db AND axios call to use this correctly.
+  // let params = req.body.categoryId;
+  // db.FILL_ME_IN(params, (err, results) => {
+  //   if (err){
+  //     res.sendStatus(500);
+  //   } else {
+  //     res.sendStatus(201);
+  //   }
+  // })
+})
 
-  app.put("/reviews/:review_id/report", (req, res) => {
+app.put("/reviews/:review_id/report", (req, res) => {
 
-    console.log(review_id);
-    res.sendStatus(500);
-    
-    //NOTE: currently need to impliment db AND axios call to use this correctly.
-    // let params = req.body.categoryId;
-    // db.FILL_ME_IN(params, (err, results) => {
-    //   if (err){
-    //     res.sendStatus(500);
-    //   } else {
-    //     res.sendStatus(201);
-    //   }
-    // })
-  })
+  console.log(review_id);
+  res.sendStatus(500);
+  
+  //NOTE: currently need to impliment db AND axios call to use this correctly.
+  // let params = req.body.categoryId;
+  // db.FILL_ME_IN(params, (err, results) => {
+  //   if (err){
+  //     res.sendStatus(500);
+  //   } else {
+  //     res.sendStatus(201);
+  //   }
+  // })
+})
 
+  //endpoint 2 - get review meta
+app.get("/loaderio-2bd32f850284281f8a9b8480473f6372", (req, res) => {
+  console.log("get loaderio verification")
+  res.status(200).send('loaderio-2bd32f850284281f8a9b8480473f6372');
+});
 
 app.listen(PORT, () => {
   console.log(`listening on port ${PORT}`);
