@@ -4,5 +4,5 @@ ADD . /reviews_service
 WORKDIR /reviews_service
 RUN npm install
 
-EXPOSE 4321
-CMD ["node", "index.js"]
+EXPOSE 3000
+CMD ["npm", "start"]

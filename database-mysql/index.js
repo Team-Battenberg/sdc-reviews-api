@@ -7,14 +7,17 @@ const connection = mysql.createConnection(mysqlConfig);
 //change to Get Review
 const getReviews = function(params, callback) {
   console.log('in reviews')
-  console.log(params);
+  console.log(params.product_id);
 
-  //NOTE: i have to define what "relevant" is in this API!
-  //that probably just means sort by helpfulness
 
-  let basicQuery = "select * from reviews where product_id = ? order by helpfulness desc limit 100"
+  //how do i improve error handling here?
+  if(params.product_id === undefined){
+    throw new Error("define product id");
+    //set this up better should not return 500
+  } 
 
-    //photos subqueriy?
+  //NOTE: i have to define what "relevant" is in this API
+    //...that probably just means sort by helpfulness
 
   let queryString = `
     select 
@@ -24,19 +27,16 @@ const getReviews = function(params, callback) {
       from sdc.reviews a 
     where a.product_id = ? order by a.helpfulness desc limit 100
   `
-  //note: i need to split based on ','
+  // => try to turn this into a view 
 
   connection.query(queryString, [params.product_id], (err, results) => {
     if(err){
       console.log('ERROR', err)
     }
-    console.log('results: !!!!!!!', typeof results)
-
     // console.log(results)
     for(row in results) {
       // console.log(results[row], results[row].photos)
       if(results[row]["photos"] !== null) {
-        console.log("split:", results[row]["photos"])
 
         let photos = results[row]["photos"].split(",").map((url, i)=> {
           return {
@@ -44,7 +44,6 @@ const getReviews = function(params, callback) {
             "url": url
           }
         })
-        console.log("------ Mapped photos:", photos)
         results[row]["photos"] = photos;
       }
     }
